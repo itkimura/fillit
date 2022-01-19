@@ -1,0 +1,50 @@
+
+1.main -> Entry point for functions
+
+2. Error management -> Insert tetorimos one by one in the link list
+ - Checks for any invalid characters
+ - Checks for wrong-length lines ('\n' in an invalid position)
+ - Counts number of '#' characters (Must be 4)
+ - Checks for '\n' at end of piece block
+ - Checks each '#' character to see if it's adjacent to another
+ - (A valid piece with 4 '#' characters will either have 6 or 8 adjacencies.
+ -  This is the "Count Method" that is mentioned on Beth Nenniger's blog post. )
+ - 21 char -> return (1), not 21 -> return (0)
+ - Check each '#' character to see ig it's adjacent to another
+	(A valid piece with 4 '#' characters will either have 6 or 8 adjacencies.
+	 Count adjacencies, e.g. i + 1 < 20(Until the end of box) && buf[i - 1] == '#'
+ - Put in to link list
+ - Close the file.
+
+3. Algorithm part
+ - Bitwise mode shifting the bits to their shape
+ - Measuring each individual tetrominoes width and height
+ - Adding these data to the final custion that we call in reader function
+
+ - Using recursive backtracking to check all possibilities for each tetromino and get place them on the map
+ - For optimization purposes important that the solving part doesn't do unnecessary computing except what it's made for
+
+4. Printing part
+ - Adding to the board with shifting bitwise operators the tetrominoes
+ - Allocate memorries for the board and printing them out
+ - Free memory
+
+
+Header
+
+
+#ifndef FILLIT_H
+# define FILLIT_H
+# define MAX_TETRI 26
+# include <string.h>
+# include <stdin.h>
+
+typedef	struct s_tetri
+{
+	uint64_t	value;
+	int		x;
+	int		y;
+	int		width;
+	int 	height;
+	t_tetri	*next;
+} t_tetri;
