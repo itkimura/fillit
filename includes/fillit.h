@@ -6,7 +6,7 @@
 /*   By: briffard <briffard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:33:45 by briffard          #+#    #+#             */
-/*   Updated: 2022/01/20 15:43:16 by briffard         ###   ########.fr       */
+/*   Updated: 2022/01/21 13:30:52 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 # include "libft.h"
+# include <stdio.h>
 
 /*DEFINE*/
 # define BUFF_SIZE 8
@@ -24,7 +25,7 @@
 # define BLOCK '#'
 # define EMPTY '.'
 # define NEWLINE '\n'
-# define MAX_SIZE 20
+# define MAX_SIZE 21
 
 
 
@@ -38,8 +39,19 @@ typedef struct	s_tetriminos
 	struct s_tetriminos		*next;
 }				t_tetri_list,*List;
 
+/*Value of false = 0 and value of true = 1*/
+typedef enum
+{
+	false,
+	true
+}	t_bool;
+
 /*PROTOTYPES*/
 List	newlist(void);
 List	push_back_list(List li, char *shape);
 void	print_list(List li);
+
+t_bool	is_valid(char *tetriminos);
+int		sidechecker(char *tetriminos, int index);
+
 #endif

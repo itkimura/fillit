@@ -6,7 +6,7 @@
 #    By: briffard <briffard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/18 15:26:05 by briffard          #+#    #+#              #
-#    Updated: 2022/01/20 14:05:35 by briffard         ###   ########.fr        #
+#    Updated: 2022/01/21 11:26:59 by briffard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	 fillit
 SRC_DIR		=	./sources/
 OBJ_DIR		=	./objects/
 
-SRC			=	 readfile.c
+SRC			=	 readfile.c is_valid.c
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 INCL_FILLIT	=	./includes
