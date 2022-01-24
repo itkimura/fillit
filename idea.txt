@@ -20,7 +20,6 @@
  - Bitwise mode shifting the bits to their shape
  - Measuring each individual tetrominoes width and height
  - Adding these data to the final custion that we call in reader function
-
  - Using recursive backtracking to check all possibilities for each tetromino and get place them on the map
  - For optimization purposes important that the solving part doesn't do unnecessary computing except what it's made for
 
