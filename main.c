@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/24 23:22:54 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:24:20 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * size[1] = max_height;
  * size[2] = min_width;
  * size[3] = max_width;
-*/
+
 
 int	test_size(const char *buf, int	*size, t_tetri *tetris)
 {
@@ -45,9 +45,59 @@ int	test_size(const char *buf, int	*size, t_tetri *tetris)
 		i++;
 	}
 }
+*/
 
+void	printbitc(uint64_t	c)
+{
+	uint64_t	bit;
+	int			i;
 
-int	check_connection(const char	*buf, int	i)
+	i = 0;
+	bit = 1 << 15;
+	while (bit != 0)
+	{
+		if (c & bit)
+			putchar('1');
+		else
+			putchar('0');
+		bit >>= 1;
+		i++;
+		if (i % 4 == 0)
+			putchar(' ');
+	}
+	putchar('\n');
+}
+
+void	get_tetri(const char	*buf, t_tetri	*p)
+{
+	int	i;
+	int	add;
+
+	i = 0;
+	add = 1 << 15;
+	p->value = 0;
+	while (i < 20)
+	{
+		if (buf[i] == '#')
+			p->value += add;
+		if (i == 18)
+			add = 1;
+		else if (buf[i] == '#' || buf[i] == '.')
+			add /= 2;
+		i++;
+	}
+	i = 0;
+	add = 1 << 15;
+	while (1)
+	{
+		if (p->value & add)
+			break ;
+		else
+			p->value <<= 1;
+	}
+}
+
+int	check_connection(const char *buf, int i)
 {
 	int	count;
 
@@ -63,24 +113,25 @@ int	check_connection(const char	*buf, int	i)
 	return (count);
 }
 
-int	validate(const char	*buf, int count)
+int	validate(const char *buf, int count)
 {
 	int	i;
-	int	count;
+	int	connection_count;
 
 	i = 0;
-	count = 0;
-	while (buf[i])
+	connection_count = 0;
+	while (i < 20)
 	{
-		if ((buf[i] != '#' && buf[i] != '.' )&& (i % 5) != 4)
+		if ((buf[i] != '#' && buf[i] != '.' ) && (i % 5) != 4)
 			return (-1);
 		if (buf[i] != '\n' && (i % 5) == 4)
 			return (-1);
 		if (buf[i] == '#')
-			count += check_connection(buf, i); 
+			connection_count += check_connection(buf, i);
 		i++;
 	}
-	if ((count == 21 && str[20] != '\n') || (count != 6 || count != 8))
+	if ((count == 21 && buf[20] != '\n')
+		|| (connection_count != 6 && connection_count != 8))
 		return (-1);
 	return (0);
 }
@@ -89,11 +140,11 @@ int	validate(const char	*buf, int count)
  * buffer -> 21 ((4 + \n ) * 4 + EOF)
 */
 
-int	read_tetri(const int fd, t_tetris *tetris)
+int	read_tetri(const int fd, t_tetri *tetris)
 {
-	int	i;
+	int		i;
 	char	buf[22];
-	int count;
+	int		count;
 
 	i = 0;
 	if (fd < 0)
@@ -101,19 +152,23 @@ int	read_tetri(const int fd, t_tetris *tetris)
 	while (1)
 	{
 		count = read(fd, buf, 21);
+		if (count < 20)
+			break ;
 		if (validate(buf, count) != 0)
 			return (-1);
-		tetris[i] = get_tetri(buf);
-		j = i - 1;
+		get_tetri(buf, &tetris[i]);
+		printf("tetris[%d].value : %p", i, &tetris[i]);
+		printbitc(tetris[i].value);
+/*
+ * j = i - 1;
 		while (j >= 0)
 		{
 			if (tetris[i].value == tetris[i].value)
 				tetris[i].next = tetris + j;
 			j--;
 		}
+*/
 		i++;
-		if (count < 20)
-			break ;
 	}
 	if (count != 0)
 		return (-1);
@@ -132,7 +187,7 @@ int	error(char *str)
  * size -> the smallest possible size of square
  */
 
-int	main(int	argc, char	**argv)
+int	main(int argc, char **argv)
 {
 //	uint16_t	map[16]; 
 	t_tetri	tetris[MAX_TETRI + 1];
