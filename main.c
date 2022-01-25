@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/25 18:26:24 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:28:06 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,25 @@ int	validate(const char *buf, int count)
 	while (i < 20)
 	{
 		if ((buf[i] != '#' && buf[i] != '.' ) && (i % 5) != 4)
+		{
+			printf("2.error\n");
 			return (-1);
+		}
 		if (buf[i] != '\n' && (i % 5) == 4)
+		{
+			printf("3.error\n");
 			return (-1);
+		}
 		if (buf[i] == '#')
 			connection_count += check_connection(buf, i);
 		i++;
 	}
 	if ((count == 21 && buf[20] != '\n')
 		|| (connection_count != 6 && connection_count != 8))
+	{
+		printf("4.error\n");
 		return (-1);
+	}
 	return (0);
 }
 
@@ -143,10 +152,12 @@ int	validate(const char *buf, int count)
 int	read_tetri(const int fd, t_tetri *tetris)
 {
 	int		i;
+	int		j;
 	char	buf[22];
 	int		count;
 
 	i = 0;
+	j = 0;
 	if (fd < 0)
 		return (-1);
 	while (1)
@@ -154,20 +165,19 @@ int	read_tetri(const int fd, t_tetri *tetris)
 		count = read(fd, buf, 21);
 		if (count < 20)
 			break ;
+		printf("count = %d\n", count);
 		if (validate(buf, count) != 0)
 			return (-1);
 		get_tetri(buf, &tetris[i]);
 		printf("tetris[%d].value : %p", i, &tetris[i]);
 		printbitc(tetris[i].value);
-/*
- * j = i - 1;
+		j = i - 1;
 		while (j >= 0)
 		{
 			if (tetris[i].value == tetris[i].value)
 				tetris[i].next = tetris + j;
 			j--;
 		}
-*/
 		i++;
 	}
 	if (count != 0)
