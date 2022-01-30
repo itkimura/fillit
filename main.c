@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/25 19:28:06 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/30 23:54:54 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * size[3] = max_width;
 
 
-int	test_size(const char *buf, int	*size, t_tetri *tetris)
+int	get_size(const char *buf, int	*size, t_tetri *list)
 {
 	int	i;
 
@@ -68,9 +68,74 @@ void	printbitc(uint64_t	c)
 	putchar('\n');
 }
 
-void	get_tetri(const char	*buf, t_tetri	*p)
+void	print_tetris(uint64_t	c)
+{
+	uint64_t	bit;
+	int			i;
+
+	i = 0;
+	bit = 1 << 15;
+	while (bit != 0)
+	{
+		if (c & bit)
+			putchar('#');
+		else
+			putchar('.');
+		bit >>= 1;
+		i++;
+		if (i % 4 == 0 && i > 0)
+			putchar('\n');
+	}
+}
+
+void	print_list(t_tetri	*list)
 {
 	int	i;
+	i = 0;
+
+	while (list[i].value)
+	{
+		printf("No.%d: %p\n", i + 1, &list[i]);
+		print_tetris(list[i].value);
+		printf("value\t: ");
+		printbitc(list[i].value);
+		printf("letter\t: %c\n", list[i].letter);
+		printf("width\t: %d\n", list[i].width);
+		printf("height: %d\n", list[i].height);
+		printf("next\t: %p\n\n\n", list[i].next);
+		i++;
+	}
+}
+void	insert_value_w_h(const char	*buf, t_tetri	*p)
+{
+	int	i;
+	int	min_width;
+
+	i = 0;
+	min_width = 3;
+	p->height = 0;
+	p->width = 0;
+	while (i < 20)
+	{
+		if (buf[i] == '#')
+		{
+			if(min_width > i % 5)
+				min_width = i % 5;
+			if (p->width < i % 5)
+				p->width = i % 5;
+		}
+		if (i % 5 == 0 && ft_strnstr(&buf[i], "#", 4))
+			p->height++;
+		i++;
+	}
+	p->value <<= min_width;
+	p->width = p->width - min_width + 1;
+}
+
+void	get_piece_in_list(const char	*buf, t_tetri	*p)
+{
+	int	i;
+	int	j;
 	int	add;
 
 	i = 0;
@@ -78,23 +143,20 @@ void	get_tetri(const char	*buf, t_tetri	*p)
 	p->value = 0;
 	while (i < 20)
 	{
-		if (buf[i] == '#')
-			p->value += add;
-		if (i == 18)
-			add = 1;
-		else if (buf[i] == '#' || buf[i] == '.')
-			add /= 2;
-		i++;
+		j = 0;
+		if (i % 5 == 0 && ft_strnstr(buf + i, "#", 4))
+		{
+			while (j < 4)
+			{
+				if (buf[i + j] == '#')
+					p->value += add;
+					add /= 2;
+				j++;
+			}
+		}
+		i += j + 1;
 	}
-	i = 0;
-	add = 1 << 15;
-	while (1)
-	{
-		if (p->value & add)
-			break ;
-		else
-			p->value <<= 1;
-	}
+	insert_value_w_h(buf, p);
 }
 
 int	check_connection(const char *buf, int i)
@@ -139,7 +201,7 @@ int	validate(const char *buf, int count)
 	if ((count == 21 && buf[20] != '\n')
 		|| (connection_count != 6 && connection_count != 8))
 	{
-		printf("4.error\n");
+		printf("4.error count = %d, buf[20] = %c, connection_count = %d\n%s", count, buf[20], connection_count, buf);
 		return (-1);
 	}
 	return (0);
@@ -149,15 +211,17 @@ int	validate(const char *buf, int count)
  * buffer -> 21 ((4 + \n ) * 4 + EOF)
 */
 
-int	read_tetri(const int fd, t_tetri *tetris)
+int	read_tetri(const int fd, t_tetri *list)
 {
 	int		i;
 	int		j;
 	char	buf[22];
 	int		count;
+	char	alpha;
 
 	i = 0;
 	j = 0;
+	alpha = 'A';
 	if (fd < 0)
 		return (-1);
 	while (1)
@@ -165,25 +229,27 @@ int	read_tetri(const int fd, t_tetri *tetris)
 		count = read(fd, buf, 21);
 		if (count < 20)
 			break ;
-		printf("count = %d\n", count);
 		if (validate(buf, count) != 0)
 			return (-1);
-		get_tetri(buf, &tetris[i]);
-		printf("tetris[%d].value : %p", i, &tetris[i]);
-		printbitc(tetris[i].value);
+		get_piece_in_list(buf, &list[i]);
+		list[i].letter = alpha++;
 		j = i - 1;
 		while (j >= 0)
 		{
-			if (tetris[i].value == tetris[i].value)
-				tetris[i].next = tetris + j;
+			if (list[j].value == list[i].value)
+			{
+				printf("i = %d, j = %d\n", i, j);
+				list[i].next = list + j;
+			}
 			j--;
 		}
 		i++;
 	}
 	if (count != 0)
 		return (-1);
-	return (0);
+	return (alpha - 'A');
 }
+
 
 int	error(char *str)
 {
@@ -197,16 +263,42 @@ int	error(char *str)
  * size -> the smallest possible size of square
  */
 
+int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
+{
+	int	size;
+
+	size = 2;
+	while (size * size < number_of_piece * 4)
+		size++;
+	(void)list;
+	printf("number_of_piece = %d, size = %d map = %d\n", number_of_piece, size, map[0]);
+	return (size);
+}
+
+void	print_map(t_tetris	*list, int	number_of_piece, int size)
+{
+}
+
 int	main(int argc, char **argv)
 {
 //	uint16_t	map[16]; 
-	t_tetri	tetris[MAX_TETRI + 1];
+	t_tetri	list[MAX_TETRI + 1];
+	uint16_t	map[16];
+	int		number_of_piece;
+	int		size;
 
+	ft_bzero(list, sizeof(t_tetri) * (MAX_TETRI + 1));
 	if (argc != 2)
 		return (error("usage: fillit input_file"));
-	if (read_tetri(open(argv[1], O_RDONLY), tetris) != 0)
+	number_of_piece = read_tetri(open(argv[1], O_RDONLY), list);
+	if (number_of_piece < 0)
 		return (error("error"));
-	else
-		printf("success");
+	print_list(list);
+	ft_bzero(map, sizeof(uint16_t) * 16);
+	size = solve(list, number_of_piece, map);
+	if (size == 0)
+		return (error("error"));
+//	print_map(list, number_of_piece, size);
+	printf("success");
 	return (0);
 }

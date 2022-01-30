@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:05:32 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/24 22:44:12 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/28 19:11:02 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef struct	s_tetri t_tetri;
 
 struct s_tetri{
 	uint64_t	value;
-	char	piece;
-	int		x;
-	int		y;
+	char	letter;
+	int		pos;
+	int		min_width;
 	int		width;
 	int		height;
 	t_tetri	*next;
