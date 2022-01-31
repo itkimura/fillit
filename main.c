@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/30 23:54:54 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:12:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,17 +251,39 @@ int	read_tetri(const int fd, t_tetri *list)
 }
 
 
-int	error(char *str)
+
+/*
+ * Attempts to find solution given size.
+ * Save final position of each "solved" tetrimino reletive to size
+*/
+
+int	backtracking(t_tetri	*list, int	size, uint16_t	*map)
 {
-	ft_putendl(str);
-	return (1);
+	int	x;
+	int	y;
+
+	y = 0;
+	x = 0;
+	if (list->value == 0)
+		return (-1);
+	list->y = pos / size;
+	printf("pos = %d\n", pos);
+/*	while (list->height + y < size)
+	{
+		x = 0;
+		while (lost->width + x < size)
+		{
+			if (!(*(uint64_t *)(map + y == pos / size ? pos % size : 0);
+		}
+	}
+*/
 }
 
 /*
- * count -> how many tetrimos are given.
- * map -> bitwise map for DP
+.* Finds minimum starting size based on number of tetriminos
  * size -> the smallest possible size of square
- */
+ * Updates size untill solution is found
+*/
 
 int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
 {
@@ -271,17 +293,78 @@ int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
 	while (size * size < number_of_piece * 4)
 		size++;
 	(void)list;
+	while (!backtracking(list, size, map))
+	{
+		ft_bzero(map, sizeof(uint16_t) * 16);
+		size++;
+	}
 	printf("number_of_piece = %d, size = %d map = %d\n", number_of_piece, size, map[0]);
 	return (size);
 }
 
-void	print_map(t_tetris	*list, int	number_of_piece, int size)
+char	*empty_map(int	size)
 {
+	char	*str;
+	int		x;
+	int		y;
+
+	str = ft_strnew((size + 1) * (size));
+	y = 0;
+	while (y < size)
+	{
+		x = 0;
+		while (x < size)
+		{
+			str[y * (size + 1) + x] = '.';
+			x++;
+		}
+		str[y * (size + 1) + x] = '\n';
+		y++;
+	}
+	return (str);
+}
+
+void	print_map(t_tetri	*list, int	number_of_piece, int size)
+{
+	char	*str;
+/*
+	int		x;
+	int		y;
+*/
+	str = empty_map(size);
+/*
+	while (number_of_piece > 0)
+	{
+		y = 0;
+		while (y < t->height)
+		{
+			x = 0;
+			while (x < t->width)
+			{
+				if((t->value >> (16 * (y + 1) - 1 - x)) & 1)
+					str[(t->y + y) * (size + 1) + x + t->x] = t->letter;
+				x++;
+			}
+			y__;
+		}
+		list++;
+		number_of_piece--;
+	}
+*/
+	(void)list;
+	(void)number_of_piece;
+	ft_putstr(str);
+	ft_strdel(&str);
+}
+
+int	error(char *str)
+{
+	ft_putendl(str);
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
-//	uint16_t	map[16]; 
 	t_tetri	list[MAX_TETRI + 1];
 	uint16_t	map[16];
 	int		number_of_piece;
@@ -298,7 +381,6 @@ int	main(int argc, char **argv)
 	size = solve(list, number_of_piece, map);
 	if (size == 0)
 		return (error("error"));
-//	print_map(list, number_of_piece, size);
-	printf("success");
+	print_map(list, number_of_piece, size);
 	return (0);
 }
