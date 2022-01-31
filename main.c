@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/01/31 12:12:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:39:21 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ int	read_tetri(const int fd, t_tetri *list)
  * Save final position of each "solved" tetrimino reletive to size
 */
 
-int	backtracking(t_tetri	*list, int	size, uint16_t	*map)
+/*int	backtracking(t_tetri	*list, int	size, uint16_t	*map)
 {
 	int	x;
 	int	y;
@@ -268,7 +268,7 @@ int	backtracking(t_tetri	*list, int	size, uint16_t	*map)
 		return (-1);
 	list->y = pos / size;
 	printf("pos = %d\n", pos);
-/*	while (list->height + y < size)
+	while (list->height + y < size)
 	{
 		x = 0;
 		while (lost->width + x < size)
@@ -276,8 +276,8 @@ int	backtracking(t_tetri	*list, int	size, uint16_t	*map)
 			if (!(*(uint64_t *)(map + y == pos / size ? pos % size : 0);
 		}
 	}
-*/
 }
+*/
 
 /*
 .* Finds minimum starting size based on number of tetriminos
@@ -293,11 +293,13 @@ int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
 	while (size * size < number_of_piece * 4)
 		size++;
 	(void)list;
+/*
 	while (!backtracking(list, size, map))
 	{
 		ft_bzero(map, sizeof(uint16_t) * 16);
 		size++;
 	}
+*/
 	printf("number_of_piece = %d, size = %d map = %d\n", number_of_piece, size, map[0]);
 	return (size);
 }
