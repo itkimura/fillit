@@ -6,7 +6,7 @@
 #    By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 09:29:05 by itkimura          #+#    #+#              #
-#    Updated: 2022/02/07 13:54:21 by briffard         ###   ########.fr        #
+#    Updated: 2022/02/07 14:02:50 by briffard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME		=	fillit
@@ -46,9 +46,5 @@ re: fclean all
 
 lft:
 	@make -C libft/ fclean && make -C libft/ && make -C libft/ clean
-
-tetrigen:
-	@make -C eval_test/tetrigen/ fclean && make -C eval_test/tetrigen
-	@./eval_test/tetrigen/runtetrigen.sh
 
 .PHONY: all clean fclean re lft tetrigen
