@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:42:55 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/06 22:03:55 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:20:27 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	print_map(t_tetri	*list, int size)
 
 	str = ft_strnew(size * size);
 	ft_memset(str, '.', size * size);
-	print_list(list);
 	while (list->value)
 	{
 		i = 0;
