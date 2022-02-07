@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:39:37 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 18:37:37 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:56:34 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	validate(const char *buf, int count)
 	counter = 0;
 	while (buf[i])
 	{
-		if ((i % 5 != 4 && buf[i] != '#' && buf[i] != '.')
+		if ((buf[i] != '#' && buf[i] != '.' && buf[i] != '\n')
 			|| ((i % 5 == 4 || i == 20) && buf[i] != '\n'))
 			return (-1);
 		if (buf[i] == '#')
@@ -103,7 +103,7 @@ int	read_tetri(const int fd, t_tetri *list)
 	char	alpha;
 
 	i = 0;
-	count = 0;
+	count = 1;
 	alpha = 'A';
 	if (fd < 0)
 		return (-1);
@@ -118,7 +118,7 @@ int	read_tetri(const int fd, t_tetri *list)
 		get_piece_in_list(buf, &list[i]);
 		list[i].letter = alpha++;
 		if (count == 20)
-			return (alpha - 'A');
+			return (++i);
 		i++;
 	}
 	return (-1);
