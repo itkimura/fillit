@@ -6,14 +6,14 @@
 #    By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 09:29:05 by itkimura          #+#    #+#              #
-#    Updated: 2022/02/07 14:02:50 by briffard         ###   ########.fr        #
+#    Updated: 2022/02/07 14:19:15 by briffard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME		=	fillit
 
 OBJ_DIR		=	./objects/
 
-SRCS		=	main.c	validate.c	print.c	test.c
+SRCS		=	main.c	validate.c	print.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

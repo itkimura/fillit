@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 14:31:41 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:15:12 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	error(char *str)
 {
 	ft_putendl_fd(str, (int)stderr);
+	ft_putendl_fd(str, 2);
 	return (1);
 }
 
