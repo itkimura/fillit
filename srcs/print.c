@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:42:55 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 18:58:37 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 23:46:11 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	backtrack(t_tetri *list, int size, uint16_t *map)
 			{
 				*(uint64_t *)(map + y) ^= (list->value >> x);
 				list->pos = x + (y * size);
+				test_print_map(map, size);
 				if (backtrack(list + 1, size, map))
 					return (1);
 				*(uint64_t *)(map + y) ^= (list->value >> x);

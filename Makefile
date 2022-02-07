@@ -6,14 +6,16 @@
 #    By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 09:29:05 by itkimura          #+#    #+#              #
-#    Updated: 2022/02/07 15:24:39 by itkimura         ###   ########.fr        #
+#    Updated: 2022/02/07 23:44:21 by itkimura         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME		=	fillit
 
 OBJ_DIR		=	./objects/
 
-SRCS		=	main.c	validate.c	print.c test.c
+INCL_HEADER =	./includes/
+SRCS_DIR	=	./srcs/
+SRCS		=	main.c	validate.c	print.c	test.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
@@ -30,9 +32,9 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) -o $@ $^ -L$(LIBFT)
 
-$(OBJ_DIR)%.o: %.c
+$(OBJ_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLAGS) -I $(INCL_LIBFT) -o $@ -c $<
+	@$(CC) $(FLAGS) -I$(INCL_HEADER) -I $(INCL_LIBFT) -o $@ -c $<
 
 clean:
 	@$(RM) -rf $(OBJ_DIR)
