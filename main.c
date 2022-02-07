@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 14:18:00 by briffard         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:15:12 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	error(char *str)
 {
+	ft_putendl_fd(str, (int)stderr);
 	ft_putendl_fd(str, 2);
 	return (1);
 }
@@ -34,6 +35,6 @@ int	main(int argc, char **argv)
 	size = solve(list, number_of_piece, map);
 	if (size == 0)
 		return (error("error"));
-	print_map(list, size);
+	print_result(list, size);
 	return (0);
 }
