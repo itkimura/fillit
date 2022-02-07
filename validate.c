@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:39:37 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 15:16:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:53:45 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	insert_value_w_h(const char	*buf, t_tetri	*p)
 {
 	int	i;
 	int	min_width;
+
 	i = 0;
 	min_width = 3;
 	p->height = 0;
@@ -84,20 +85,25 @@ int	check_connection(const char *buf, int i)
 int	validate(const char *buf, int count)
 {
 	int	i;
+	int	sharp;
 	int	connection_count;
 
 	i = 0;
+	sharp = 0;
 	connection_count = 0;
 	while (i < 20)
 	{
-		if ((i % 5 != 4 && buf[i] != '#' && buf[i] != '.') || 
-			(i % 5 == 4 && buf[i] != '\n'))
+		if ((i % 5 != 4 && buf[i] != '#' && buf[i] != '.')
+			|| (i % 5 == 4 && buf[i] != '\n'))
 			return (-1);
 		if (buf[i] == '#')
+		{
+			sharp++;
 			connection_count += check_connection(buf, i);
+		}
 		i++;
 	}
-	if ((count == 21 && buf[20] != '\n')
+	if ((count == 21 && buf[20] != '\n') || sharp != 4
 		|| (connection_count != 6 && connection_count != 8))
 		return (-1);
 	return (0);
@@ -106,17 +112,15 @@ int	validate(const char *buf, int count)
 int	read_tetri(const int fd, t_tetri *list)
 {
 	int		i;
-	int		j;
 	char	buf[22];
 	int		count;
 	char	alpha;
 
 	i = 0;
-	j = 0;
 	alpha = 'A';
 	if (fd < 0)
 		return (-1);
-	while (1)
+	while (i < 27)
 	{
 		count = read(fd, buf, 21);
 		if (count < 20)

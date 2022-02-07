@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:05:32 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 15:13:44 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:24:48 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <fcntl.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 # define MAX_TETRI 26
 
@@ -35,8 +35,7 @@ int		read_tetri(const int fd, t_tetri *list);
 # include <stdio.h>
 void	test_printbitc(uint64_t	c);
 void	test_print_tetris(uint64_t	c);
-void	test_print_map(uint64_t	c);
+void	test_print_map(uint16_t	*map, int size);
 void	test_print_list(t_tetri	*list);
-
 
 #endif

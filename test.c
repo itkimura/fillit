@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:38:12 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 15:16:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:22:50 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	test_printbitc(uint64_t	c)
 	putchar('\n');
 }
 
-void	test_print_tetris(uint64_t	c, size)
+void	test_print_tetris(uint64_t	c)
 {
 	uint64_t	bit;
 	int			i;
@@ -56,27 +56,32 @@ void	test_print_tetris(uint64_t	c, size)
 	}
 }
 
-void	test_print_map(uint64_t	c)
+void	test_print_map(uint16_t	*map, int size)
 {
 	uint64_t	bit;
 	int			i;
+	int			j;
 
 	i = 0;
-	bit = 1 << 15;
-	while (i < 64)
+	(void)size;
+	printf("--map--\n");
+	while (i < size)
 	{
-		if (c & bit)
-			putchar('1');
-		else
-			putchar('0');
-		bit >>= 1;
-		i++;
-		if (i % 5 == 0 && i > 0)
+		j = 0;
+		bit = 1 << 15;
+		while (j < size)
 		{
-			bit <<= 21;
-			putchar('\n');
+			if (map[i] & bit)
+				putchar('1');
+			else
+				putchar('0');
+			bit >>= 1;
+			j++;
 		}
+		i++;
+		putchar('\n');
 	}
+	putchar('\n');
 }
 
 void	test_print_list(t_tetri	*list)

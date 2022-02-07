@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:42:55 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 15:15:59 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:51:55 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	backtrack(t_tetri *list, int size, uint16_t *map)
 			{
 				*(uint64_t *)(map + y) ^= (list->value >> x);
 				list->pos = x + (y * size);
-				test_print_map(*map);
+				test_print_map(map, size);
 				if (backtrack(list + 1, size, map))
 					return (1);
 				*(uint64_t *)(map + y) ^= (list->value >> x);
@@ -90,10 +90,7 @@ void	print_map(t_tetri	*list, int size, char *str)
 			if (i % 16 < 15)
 				bit >>= 1;
 			if (i % 16 == 15)
-			{
 				bit <<= 31;
-				printf("\n");
-			}
 			i++;
 		}
 		list++;
@@ -102,11 +99,11 @@ void	print_map(t_tetri	*list, int size, char *str)
 
 void	print_result(t_tetri *list, int size)
 {
-	int	i;
-	char		*str;
+	int		i;
+	char	*str;
+
 	str = ft_strnew(size * size);
 	ft_memset(str, '.', size * size);
-
 	test_print_list(list);
 	print_map(list, size, str);
 	i = 0;
@@ -117,6 +114,5 @@ void	print_result(t_tetri *list, int size)
 			ft_putchar('\n');
 		i++;
 	}
-	ft_putchar('\n');
 	ft_strdel(&str);
 }
