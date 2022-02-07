@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:39:37 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 16:53:45 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:37:37 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,45 +66,31 @@ void	get_piece_in_list(const char	*buf, t_tetri	*p)
 	insert_value_w_h(buf, p);
 }
 
-int	check_connection(const char *buf, int i)
-{
-	int	count;
-
-	count = 0;
-	if (i >= 1 && buf[i - 1] == '#')
-		count++;
-	if (i < 19 && buf[i + 1] == '#')
-		count++;
-	if (i >= 5 && buf[i - 5] == '#')
-		count++;
-	if (i < 15 && buf[i + 5] == '#')
-		count++;
-	return (count);
-}
-
 int	validate(const char *buf, int count)
 {
 	int	i;
 	int	sharp;
-	int	connection_count;
+	int	counter;
 
 	i = 0;
 	sharp = 0;
-	connection_count = 0;
-	while (i < 20)
+	counter = 0;
+	while (buf[i])
 	{
 		if ((i % 5 != 4 && buf[i] != '#' && buf[i] != '.')
-			|| (i % 5 == 4 && buf[i] != '\n'))
+			|| ((i % 5 == 4 || i == 20) && buf[i] != '\n'))
 			return (-1);
 		if (buf[i] == '#')
 		{
 			sharp++;
-			connection_count += check_connection(buf, i);
+			counter += (i / 5 != 0 && buf[i - 5] == '#');
+			counter += (i / 5 != 3 && buf[i + 5] == '#');
+			counter += (i % 5 != 0 && buf[i - 1] == '#');
+			counter += (i % 5 != 3 && buf[i + 1] == '#');
 		}
 		i++;
 	}
-	if ((count == 21 && buf[20] != '\n') || sharp != 4
-		|| (connection_count != 6 && connection_count != 8))
+	if (sharp != 4 || (counter != 6 && counter != 8))
 		return (-1);
 	return (0);
 }
@@ -117,21 +103,23 @@ int	read_tetri(const int fd, t_tetri *list)
 	char	alpha;
 
 	i = 0;
+	count = 0;
 	alpha = 'A';
 	if (fd < 0)
 		return (-1);
-	while (i < 27)
+	while (count)
 	{
 		count = read(fd, buf, 21);
-		if (count < 20)
-			break ;
+		buf[count] = '\0';
 		if (validate(buf, count) != 0)
-			return (-1);
+			break ;
+		if (count < 20 || i > 25)
+			break ;
 		get_piece_in_list(buf, &list[i]);
 		list[i].letter = alpha++;
+		if (count == 20)
+			return (alpha - 'A');
 		i++;
 	}
-	if (count != 0 || (count == 0 && list[0].value == 0))
-		return (-1);
-	return (alpha - 'A');
+	return (-1);
 }
