@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:39:37 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 11:27:28 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:27:03 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	get_piece_in_list(const char	*buf, t_tetri	*p)
 			add >>= 1;
 		i++;
 	}
-	printf("p->value = ");
-	printbitc(p->value);
 	p->value >>= (min_row * 16);
 	insert_value_w_h(buf, p);
 }

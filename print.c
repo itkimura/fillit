@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:42:55 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/06 22:03:55 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:04:07 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	backtrack(t_tetri *list, int size, uint16_t *map)
 			{
 				*(uint64_t *)(map + y) ^= (list->value >> x);
 				list->pos = x + (y * size);
+				test_print_map(*map);
 				if (backtrack(list + 1, size, map))
 					return (1);
 				*(uint64_t *)(map + y) ^= (list->value >> x);
@@ -67,10 +68,47 @@ int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
 	return (size);
 }
 
-void	print_result(int size, char *str)
+void	print_map(t_tetri	*list, int size, char *str)
+{
+	uint64_t	bit;
+	int			count;
+	int			i;
+
+	while (list->value)
+	{
+		i = 0;
+		bit = 1 << 15;
+		count = list->pos;
+		while (i < 64)
+		{
+			if (i % 16 < size)
+			{
+				if (bit & list->value)
+					str[count] = list->letter;
+				count++;
+			}
+			if (i % 16 < 15)
+				bit >>= 1;
+			if (i % 16 == 15)
+			{
+				bit <<= 31;
+				printf("\n");
+			}
+			i++;
+		}
+		list++;
+	}
+}
+
+void	print_result(t_tetri *list, int size)
 {
 	int	i;
+	char		*str;
+	str = ft_strnew(size * size);
+	ft_memset(str, '.', size * size);
 
+	test_print_list(list);
+	print_map(list, size, str);
 	i = 0;
 	while (str[i])
 	{
@@ -80,39 +118,5 @@ void	print_result(int size, char *str)
 		i++;
 	}
 	ft_putchar('\n');
-//	ft_strdel(&str);
-}
-
-void	print_map(t_tetri	*list, int size)
-{
-	char		*str;
-	uint64_t	flag;
-	int			count;
-	int			i;
-
-	str = ft_strnew(size * size);
-	ft_memset(str, '.', size * size);
-	print_list(list);
-	while (list->value)
-	{
-		i = 0;
-		flag = 1 << 15;
-		count = list->pos;
-		while (i < 64)
-		{
-			if (i % 16 < size)
-			{
-				if (flag & list->value)
-					str[count] = list->letter;
-				count++;
-			}
-			if (i % 16 < 15)
-				flag >>= 1;
-			if (i % 16 == 15)
-				flag <<= 31;
-			i++;
-		}
-		list++;
-	}
-	print_result(size, str);
+	ft_strdel(&str);
 }
