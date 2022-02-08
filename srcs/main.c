@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 23:22:45 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/08 11:57:20 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	error(char *str)
 	ft_putendl(str);
 	return (1);
 }
+/*
+ * Access to all function
+*/
 
 int	main(int argc, char **argv)
 {

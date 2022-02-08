@@ -6,7 +6,7 @@
 #    By: briffard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/16 08:08:13 by briffard          #+#    #+#              #
-#    Updated: 2022/02/07 14:37:33 by briffard         ###   ########.fr        #
+#    Updated: 2022/02/08 11:20:51 by briffard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ FILES=	ft_putchar.c	ft_putchar_fd.c		ft_putendl.c	ft_tolower.c	\
 		ft_strsplit.c	ft_lstnew.c			ft_lstadd.c		ft_lstdelone.c	\
 		ft_lstdel.c			ft_lstiter.c		ft_lstmap.c		\
 
-INCL	=	./includes/
 
 OBJ		=	$(SRC:.c=.o)
 RM		=	rm -f
@@ -40,7 +39,7 @@ all: $(NAME)
 $(NAME):
 	@echo "Starting create LIBFT"
 	@echo "Compiling..."
-	@$(CC) $(CCFLAGS) -I $(INCL) -c $(FILES)
+	@$(CC) $(CCFLAGS) -c $(FILES)
 	@echo "Creation of LIBFT"
 	@ar rc $(NAME) *.o
 	@echo "LIBFT created."
