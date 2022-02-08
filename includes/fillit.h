@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:05:32 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 17:23:04 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/08 08:11:49 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdint.h>
 # include "libft.h"
 
 # define MAX_TETRI 26
