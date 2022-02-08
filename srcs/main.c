@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:38:41 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/08 11:57:20 by briffard         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:02:35 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	error(char *str)
 	ft_putendl(str);
 	return (1);
 }
+
 /*
  * Access to all function
 */
-
 int	main(int argc, char **argv)
 {
 	t_tetri		list[MAX_TETRI + 1];

@@ -6,7 +6,7 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:42:55 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 17:11:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:34:56 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ int	solve(t_tetri *list, const int number_of_piece, uint16_t *map)
 	return (size);
 }
 
+/*
+ * Filling map(str) according to backtrack result
+ * list->pos hold the position of map for each tetorimo
+ */
 void	print_map(t_tetri	*list, int size, char *str)
 {
 	uint64_t	bit;
@@ -96,6 +100,10 @@ void	print_map(t_tetri	*list, int size, char *str)
 	}
 }
 
+/*
+ * Make the empty str bu strnew and chage all char to '.'
+ * Print map and del malloc
+*/
 void	print_result(t_tetri *list, int size)
 {
 	int		i;

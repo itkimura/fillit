@@ -6,12 +6,16 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:39:37 by itkimura          #+#    #+#             */
-/*   Updated: 2022/02/07 18:56:34 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:43:48 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
+/*
+ * Save width and height in struct
+ * At the same time, move bitwise value to the left
+*/
 void	insert_value_w_h(const char	*buf, t_tetri	*p)
 {
 	int	i;
@@ -39,6 +43,10 @@ void	insert_value_w_h(const char	*buf, t_tetri	*p)
 	p->width = p->width - min_width;
 }
 
+/*
+ * Save the tetrimos in bitwise in struct
+ * Move the tetrimo in the top
+*/
 void	get_piece_in_list(const char	*buf, t_tetri	*p)
 {
 	int			i;
@@ -77,8 +85,8 @@ int	validate(const char *buf, int count)
 	counter = 0;
 	while (buf[i])
 	{
-		if ((buf[i] != '#' && buf[i] != '.' && buf[i] != '\n')
-			|| ((i % 5 == 4 || i == 20) && buf[i] != '\n'))
+		if ((i % 5 < 4 && i < 20 && buf[i] != '#' && buf[i] != '.')
+			|| (i % 5 == 4 && buf[i] != '\n'))
 			return (-1);
 		if (buf[i] == '#')
 		{
